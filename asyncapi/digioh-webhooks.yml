@@ -1,0 +1,88 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://help.digioh.com/docs/digioh-rest-api, https://help.digioh.com/docs/how-to-send-data-via-webhook-api,
+  https://help.digioh.com/docs/understanding-digioh-pipelines
+spec_type: none
+asyncapi: null
+asyncapi_note: >-
+  Digioh publishes no AsyncAPI document. /asyncapi.yaml, /asyncapi.json and an event-catalog page
+  were not found on any Digioh host, and the GitHub org (3 public repos) contains no event schema.
+  This file captures the webhook surface Digioh does document, and wires type Webhooks only.
+surface: outbound-only
+surface_note: >-
+  Digioh emits events; it does not accept them. There is no inbound webhook endpoint, no event
+  subscription API, no signature/verification header, no delivery-attempt contract and no replay
+  mechanism documented. A customer configures a destination URL in the Digioh UI and Digioh POSTs to
+  it on form submission.
+transports:
+- name: API Form POST integration
+  kind: http-webhook
+  docs: https://help.digioh.com/docs/digioh-rest-api
+  configuration: Integrations > New Integration > type "API Form POST"
+  destination_field: Form Post URL
+  methods: [POST, PUT, PATCH, DELETE, GET]
+  default_method: POST
+  content_types: [JSON Raw, other encodings selectable via the Post Type dropdown]
+  auth: HTTP Basic fields, or arbitrary HTTP header key/value pairs (see authentication/digioh-authentication.yml)
+  payload_control: Map Fields (row-by-row field mapping) or a hand-authored JSON Raw template
+- name: Digioh Pipelines
+  kind: managed-delivery
+  docs: https://help.digioh.com/docs/understanding-digioh-pipelines
+  description: >-
+    The current routing layer between a form submission and an ESP/CRM. A pipeline is a sequence of
+    ordered tasks - most commonly Map Data (field mapping), a destination API task (Klaviyo,
+    Iterable, and others) and Render Template (a Liquid template for destination-specific payloads).
+    Pipelines run automatically on form submission. Every execution is logged under Pipeline >
+    Activity. Digioh describes this as separate from, and successor to, the legacy "integrations"
+    system.
+  conditions: per-task conditions supported
+  logging: per-execution logs (https://help.digioh.com/docs/how-to-view-pipeline-logs)
+- name: Push Planet webhook / API integration
+  kind: http-webhook
+  docs: https://help.digioh.com/docs/how-to-send-data-via-webhook-api
+  description: >-
+    The Push Planet landing-page and preference-centre product sends form submission data to an
+    external platform or API using the same merge-tag JSON payload templating.
+events:
+- name: form.submitted
+  publisher: Digioh
+  trigger: A visitor submits a Digioh campaign form (pop-up, inline, quiz, banner, sidebar, preference centre or landing page)
+  delivery: HTTP request to the customer-configured Form Post URL
+  payload_shape: customer-authored - see conventions/digioh-conventions.yml payload.templating
+  note: >-
+    Event NAME is descriptive, not published. Digioh does not name, type or version its events; the
+    submission is the only documented trigger. No event catalog exists to enumerate.
+- name: page.progress
+  publisher: Digioh (client-side)
+  trigger: A visitor advances through campaign pages
+  delivery: >-
+    Client-side only - the App Sync app continuously updates localStorage key digioh_json, and Custom
+    JS snippets can be bound to the "After Submit" trigger to call any JS already loaded on the page.
+  note: This is a browser-side event hook, not a server-to-server webhook.
+payload_fields:
+  named_merge_tags: ['[EMAIL]', '[FIRST_NAME]', '[LAST_NAME]', '[NAME]']
+  positional_merge_tags: '[FIELD1] .. [FIELD20]'
+  geo_merge_tags: ['[POSTAL_CODE]', '[CITY]', '[REGION]', '[COUNTRY]', '[COUNTRY_CODE]']
+  pipeline_paths: [form.email, analytics.country, prq.results_url]
+  type_rule: JSON quoting determines whether a merge tag resolves to a string or a native JSON type
+security:
+  signature_header: null
+  verification: null
+  retry_policy: not-published
+  ordering_guarantee: not-published
+  idempotency: not-published
+  source_ips:
+    note: Digioh publishes outbound source IPs a receiver can allowlist.
+    us: 20.66.60.83
+    eu: 52.166.217.110
+    docs: https://help.digioh.com/docs/digioh-ip-addresses-for-allowlisting
+gaps:
+- No AsyncAPI, no event catalog, no event schema, no event versioning.
+- No signature or HMAC verification header, so a receiver can only authenticate by source IP.
+- No documented retry, backoff, timeout, ordering or at-least-once/exactly-once semantics.
+- No inbound webhook or subscription API - a third party cannot subscribe to Digioh events programmatically.
+evidence:
+- {url: 'https://help.digioh.com/docs/digioh-rest-api', status: 200, fetched: '2026-08-12'}
+- {url: 'https://help.digioh.com/docs/how-to-send-data-via-webhook-api', status: 200, fetched: '2026-08-12'}
+- {url: 'https://help.digioh.com/docs/understanding-digioh-pipelines', status: 200, fetched: '2026-08-12'}

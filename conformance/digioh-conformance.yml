@@ -1,0 +1,87 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.digioh.com/knowledgebase/security-and-compliance/
+note: >-
+  Digioh publishes a named compliance posture on its own help centre. It is a claims page, not a
+  report - the SOC 2 Type II report is described as "available to customers upon request", there is
+  no trust portal, no auditor named, no report date and no downloadable evidence, so every entry
+  below is recorded as a provider claim with its source. No API-layer standards apply: Digioh
+  publishes no OpenAPI, no OAuth/OIDC surface and no RFC 9457 error contract, so those rows are
+  honest false values rather than omissions.
+standards:
+- id: soc2-type-ii
+  conforms: true
+  evidence: >-
+    "Digioh maintains SOC 2 Type II certification, verifying that our systems and processes meet
+    industry standards for security, availability, and confidentiality"; controls independently
+    audited annually; report available to customers on request.
+  source: https://help.digioh.com/knowledgebase/security-and-compliance/
+  verification: provider-claim (no report, auditor or date published)
+- id: gdpr
+  conforms: true
+  evidence: >-
+    Digioh states it acts as a data processor, supports affirmative opt-in consent, right to access
+    and deletion, PII obfuscation, and a pass-through mode in which end-user personal data is
+    transmitted to customer-controlled systems without persistent storage by Digioh.
+  source: https://help.digioh.com/knowledgebase/security-and-compliance/
+  verification: provider-claim
+- id: ccpa-cpra
+  conforms: true
+  evidence: Same consent, access, deletion and data-storage-disable controls documented for CCPA/CPRA.
+  source: https://help.digioh.com/knowledgebase/security-and-compliance/
+  verification: provider-claim
+- id: wcag-2.1-aa
+  conforms: true
+  evidence: >-
+    ADA extension sets ARIA labels and tabindex automatically; keyboard navigation across all widgets;
+    contrast and readability designed to WCAG AA ratios. Digioh ships explicit ADA campaign controls
+    for screen readers as a product feature.
+  source: https://help.digioh.com/knowledgebase/security-and-compliance/
+  verification: provider-claim
+- id: tls-1.2-plus
+  conforms: true
+  evidence: >-
+    Documented as "All data is transmitted over HTTPS with TLS 1.2+ encryption"; independently
+    verified by probe - www.digioh.com, help.digioh.com and www.lightboxcdn.com all negotiate TLSv1.3.
+  source: security/digioh-domain-security.yml
+  verification: probed
+- id: sso-saml-oidc
+  conforms: partial
+  evidence: >-
+    SSO against Okta, Azure AD and Google Workspace is offered for enterprise/team accounts, but the
+    protocol is never named and setup requires Digioh support involvement; no metadata endpoint or
+    discovery document is served (see well-known/digioh-well-known.yml).
+  source: https://help.digioh.com/knowledgebase/security-and-compliance/
+  verification: provider-claim
+- id: mfa
+  conforms: true
+  evidence: Multi-factor authentication offered on Digioh accounts; enabled via Customer Success.
+  source: https://help.digioh.com/knowledgebase/security-and-compliance/
+  verification: provider-claim
+- id: oauth2
+  conforms: false
+  evidence: No OAuth 2.0 surface is published; no authorization or token endpoint exists.
+- id: openid-connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every Digioh host.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: No API error contract is published; the only documented error surface is client-side form validation messaging.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on every Digioh host.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No deprecation policy or Sunset header support published (see lifecycle/digioh-lifecycle.yml).
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document was found after probing /openapi.json, /openapi.yaml,
+    /swagger.json, /v1/openapi.json and /api-docs against every Digioh host including the CDN and
+    widget-runtime hosts.
+certifications:
+- SOC 2 Type II
+compliance_url: https://help.digioh.com/knowledgebase/security-and-compliance/
+evidence:
+- {url: 'https://help.digioh.com/knowledgebase/security-and-compliance/', status: 200, fetched: '2026-08-12'}
+- {url: 'https://help.digioh.com/docs/digioh-security-documents', status: 200, fetched: '2026-08-12'}

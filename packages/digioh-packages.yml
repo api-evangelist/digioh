@@ -1,0 +1,92 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://api.wordpress.org/plugins/info/1.0/digioh.json, https://api.github.com/orgs/digioh/repos,
+  https://apps.shopify.com/digioh, https://help.digioh.com/docs/how-to-install-digioh-on-your-site
+note: >-
+  Digioh ships no server-side client libraries. Every first-party distribution below is an
+  install/embed artifact - a CMS plugin, a storefront app, a mobile embed binary, or the CDN widget
+  loader. npm registry search for "digioh" returned 0 results (2026-08-12) and PyPI has no digioh
+  package; there are no Maven Central, NuGet, RubyGems, Packagist, crates.io or pkg.go.dev
+  distributions. The npm package "digio-api" and the github.com/digio-tech org belong to Digio.in, an
+  unrelated Indian KYC company, and are deliberately NOT recorded here.
+packages:
+- language: php
+  registry: wordpress
+  name: digioh
+  title: Digioh Forms, Popups, Quizzes, Surveys, Abandon Cart
+  url: https://wordpress.org/plugins/digioh/
+  install: Install from the WordPress plugin repository, then set Settings > Digioh Settings > Client GUID
+  official: true
+  version: 1.1.2
+  published: '2023-06-09'
+  metadata_source: https://api.wordpress.org/plugins/info/1.0/digioh.json
+  note: >-
+    Registry metadata records last_updated 2023-06-09 and "tested up to" WordPress 6.2.10 - more than
+    three years behind the current platform at the time of this probe, and behind Digioh's own
+    2026 product releases. 4,170 lifetime downloads, 0 ratings.
+- language: swift
+  registry: github
+  name: digioh-ios-sdk
+  url: https://github.com/digioh/digioh-ios-sdk
+  install: Download Digioh.xcframework.zip from the repository and drag it into the Xcode target
+  official: true
+  version: null
+  published: '2023-05-09'
+  metadata_source: https://api.github.com/repos/digioh/digioh-ios-sdk
+  note: >-
+    version is null because the repository publishes no tags and no GitHub releases - the SDK is a
+    Digioh.xcframework.zip binary committed to the default branch, so a consumer cannot tell which
+    build they are downloading. `published` is the last commit date (pushed_at 2023-05-09). Not
+    distributed via CocoaPods, Carthage or Swift Package Manager. Exposes
+    DigiohWeb(userGId:) / checkShowBoxes / showBox.
+- language: kotlin
+  registry: github
+  name: digioh-android-sdk
+  url: https://github.com/digioh/digioh-android-sdk
+  install: Download Digioh.aar from the repository into app/libs and add implementation files("libs/Digioh.aar")
+  official: true
+  version: null
+  published: '2023-05-09'
+  metadata_source: https://api.github.com/repos/digioh/digioh-android-sdk
+  note: >-
+    version is null for the same reason as the iOS SDK - no tags, no releases, a Digioh.aar binary
+    committed to the default branch. Not published to Maven Central or JitPack. `published` is the
+    last commit date (pushed_at 2023-05-09).
+- language: javascript
+  registry: cdn
+  name: lightbox_inline.js
+  url: https://www.lightboxcdn.com/vendor/{CLIENT_GUID}/lightbox_inline.js
+  install: Paste the Digioh JS snippet from Account > Setup Instructions as high in <head> as possible
+  official: true
+  version: null
+  published: null
+  metadata_source: probed https://www.lightboxcdn.com/vendor/f5ca140a-36e6-4640-9031-2e0bd5673a58/lightbox_inline.js
+  note: >-
+    CDN-distributed and UNPINNED - the URL carries the customer's client GUID, not a version, and the
+    loader chains to //www.zeropartyforms.com/w37htfhcq2/vendor/{CLIENT_GUID}/lightbox.js which in
+    turn loads user.js with a cache-busting query string. There is no version in any URL segment and
+    no jsDelivr/unpkg package to query, so a consumer cannot determine which build is executing on
+    their site. Recorded as null-with-note rather than omitted: the absence of a pin is the finding.
+    Probed 2026-08-12, HTTP 200.
+- language: none
+  registry: shopify-app-store
+  name: Digioh
+  url: https://apps.shopify.com/digioh
+  install: Install the Digioh app from the Shopify App Store and enable the Digioh theme app embed
+  official: true
+  version: null
+  published: null
+  metadata_source: https://apps.shopify.com/digioh
+  note: >-
+    Shopify App Store listing returned HTTP 200 on 2026-08-12. The App Store exposes no public
+    version/published metadata endpoint, so both fields are null by structural absence rather than by
+    a failed lookup. Injects the Digioh script into Shopify themes; per Digioh's own headless guide
+    it cannot inject into headless storefronts and is then used only for the discount-code and
+    product-feed API connection.
+sdk_count: 4
+official_count: 5
+currency_finding: >-
+  Every dated first-party distribution Digioh publishes is stale: the WordPress plugin last shipped
+  2023-06-09 and the two mobile SDKs last shipped 2023-05-09. The only actively maintained
+  distribution channel is the unversioned CDN widget loader, which cannot be dated at all.

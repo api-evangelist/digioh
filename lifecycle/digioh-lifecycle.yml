@@ -1,0 +1,37 @@
+generated: '2026-08-12'
+method: searched
+source: https://status.digioh.com/, https://www.digioh.com/blog-categories/product-updates, https://help.digioh.com/
+versioning:
+  scheme: none-published
+  current: null
+  docs: null
+  note: >-
+    Digioh publishes no API versioning scheme. The client-side JavaScript API is delivered from an
+    unversioned CDN path (/vendor/{CLIENT_GUID}/lightbox_inline.js), so the running build changes
+    under consumers without a version signal. Campaign-level versioning does exist inside the
+    product - "How do I rollback our published JavaScript" and "How to Restore an Older Campaign
+    Design" - but that is tenant content versioning, not contract versioning.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: >-
+    No deprecation policy, no Sunset/Deprecation header support (RFC 8594), and no published
+    end-of-life calendar were found anywhere in the 748-article knowledge base or on digioh.com. The
+    one deprecation signal Digioh does publish is editorial: the Pipelines documentation describes
+    the older "integrations" system as legacy and separate from Pipelines, without a dated retirement.
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment is published; enterprise terms are quote-only.
+status_page: https://status.digioh.com/
+status_page_provider: Pingdom Public Reports
+status_page_note: >-
+  A Pingdom public report rendering a rolling 7-day up/down strip per monitored service. It has no
+  incident history, no component list, no RSS/Atom or JSON feed, no subscribe mechanism and no
+  scheduled-maintenance calendar - it is an uptime widget rather than a status page an integrator can
+  automate against. Probed 2026-08-12, HTTP 200.
+changelog: https://www.digioh.com/blog-categories/product-updates
+deprecated_operations: []
+evidence:
+- {url: 'https://status.digioh.com/', status: 200, fetched: '2026-08-12'}
+- {url: 'https://www.digioh.com/blog-categories/product-updates', status: 200, fetched: '2026-08-12'}

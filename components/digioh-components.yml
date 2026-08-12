@@ -1,0 +1,113 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://help.digioh.com/docs/how-to-install-digioh-on-your-site,
+  https://help.digioh.com/docs/digioh-javascript-api,
+  https://help.digioh.com/docs/how-to-manually-trigger-a-lightbox-via-api,
+  https://help.digioh.com/docs/how-can-i-get-the-rules-re-evaluated,
+  probed https://www.lightboxcdn.com/vendor/f5ca140a-36e6-4640-9031-2e0bd5673a58/lightbox_inline.js
+summary: >-
+  Digioh is a client-side embed product. Its entire developer-facing surface is a JavaScript widget
+  runtime dropped into a merchant's storefront plus a small browser API for controlling it. This
+  artifact records that surface; it is the closest thing Digioh has to an API reference.
+loaders:
+- name: lightbox_inline.js
+  url: https://www.lightboxcdn.com/vendor/{CLIENT_GUID}/lightbox_inline.js
+  placement: as high in <head> as possible, on every subdomain visitors can land on
+  versioned: false
+  probed: {status: 200, bytes: 2549, fetched: '2026-08-12'}
+  chain:
+  - https://www.lightboxcdn.com/vendor/{CLIENT_GUID}/lightbox_inline.js
+  - //www.zeropartyforms.com/w37htfhcq2/vendor/{CLIENT_GUID}/lightbox.js
+  - //www.zeropartyforms.com/w37htfhcq2/vendor/{CLIENT_GUID}/user.js (or user_qa.js in QA mode)
+  note: >-
+    The observed chain runs through www.zeropartyforms.com, a Digioh-operated host that appears in
+    neither the CSP requirements article nor any other public documentation. The runtime is injected
+    into a hidden iframe by a lightboxjs bootstrap, which is why campaign Custom JS executes in an
+    iframe and must reach the host page through window.parent.
+- name: lightbox_speed.js
+  url: https://www.lightboxcdn.com/vendor/{CLIENT_GUID}/lightbox_speed.js
+  probed: {status: 200, bytes: 3751, fetched: '2026-08-12'}
+  note: Alternate loader variant; corresponds to the "Fast Activation" vs "Low Impact" deployment modes exposed by the WordPress plugin.
+javascript_api:
+  namespace_from_host_page: DIGIOH_API.LIGHTBOX
+  namespace_from_digioh_custom_js: api.LIGHTBOX
+  docs: https://help.digioh.com/docs/digioh-javascript-api
+  methods:
+  - name: loadLightbox
+    signature: api.LIGHTBOX.loadLightbox(lightbox_guid)
+    description: >-
+      Manually display a campaign by its long GUID, bypassing all display rules and conditions. The
+      campaign must still carry at least one rule to be eligible for display at all.
+    source: https://help.digioh.com/docs/how-to-manually-trigger-a-lightbox-via-api
+  - name: isDigiohReady
+    signature: window.DIGIOH_API.LIGHTBOX.isDigiohReady()
+    description: Readiness guard - returns whether the Digioh runtime has finished initializing.
+    source: https://help.digioh.com/docs/how-to-manually-trigger-a-lightbox-via-api
+  - name: checkConditionsLoad
+    signature: DIGIOH_API.LIGHTBOX.checkConditionsLoad()
+    description: Re-evaluate load-type display rules (any campaign without click/hover/scroll/exit/time rules) and trigger eligible campaigns.
+    source: https://help.digioh.com/docs/how-can-i-get-the-rules-re-evaluated
+  - name: checkConditionsClick
+    signature: DIGIOH_API.LIGHTBOX.checkConditionsClick()
+    description: Re-evaluate click-triggered display rules.
+    source: https://help.digioh.com/docs/how-can-i-get-the-rules-re-evaluated
+  - name: checkConditionsHover
+    signature: DIGIOH_API.LIGHTBOX.checkConditionsHover()
+    description: Re-evaluate hover-triggered display rules.
+    source: https://help.digioh.com/docs/how-can-i-get-the-rules-re-evaluated
+  - name: checkConditionsScroll
+    signature: DIGIOH_API.LIGHTBOX.checkConditionsScroll()
+    description: Re-evaluate scroll-depth display rules.
+    source: https://help.digioh.com/docs/how-can-i-get-the-rules-re-evaluated
+  - name: checkConditionsExit
+    signature: DIGIOH_API.LIGHTBOX.checkConditionsExit()
+    description: Re-evaluate exit-intent display rules.
+    source: https://help.digioh.com/docs/how-can-i-get-the-rules-re-evaluated
+  - name: checkConditionsTime
+    signature: DIGIOH_API.LIGHTBOX.checkConditionsTime()
+    description: Re-evaluate time-on-page display rules.
+    source: https://help.digioh.com/docs/how-can-i-get-the-rules-re-evaluated
+  data_access:
+    mechanism: localStorage
+    key: digioh_json
+    app: App Sync form input in Local Storage
+    declaration: box-level metadata command 'prop:propName = [MERGE_TAG]'; pipe-separate tags to build an array
+    source: https://help.digioh.com/docs/how-to-access-digioh-form-data-from-your-own-javascript
+component_families:
+- family: Onsite campaigns
+  components: [Pop-up, Full-screen welcome wall, Banner, Sidebar, Inline embed, Teaser, Exit-intent campaign]
+  note: Rendered by the widget runtime; positioned and styled in the Digioh design editor. 550+ templates per the pricing page.
+- family: Quizzes
+  components: [Product recommendation quiz, Score-based quiz, Trivia, Spin to Win, Scratch to Win]
+  note: Branching logic, weighting logic, personalized result pages; embeddable in Shopify navigation and landing pages.
+- family: Forms and data capture
+  components: [Multi-page form, Date picker, Dropdown, Checkbox, Radio/select buttons, File upload, Age gate, Click-to-copy button, Rating stars]
+- family: Hosted surfaces
+  components: [Landing page builder, Email preference centre, Post-purchase / post-checkout survey, Results page]
+  note: Digioh-hosted pages, optionally served from a customer custom domain (CNAME).
+- family: Extensions / apps
+  components: [ADA screen-reader controls, Consolidated Error Messages, Internationalization, GTM Campaign Events, Form Data Sync, Yotpo Reviews, Relative Date Max/Min, Quiz Abandonment, Conditional Integrations, Animation]
+  note: Installed from Custom JS (Apps) in the Digioh account and configured with box-level metadata commands.
+- family: Identity
+  components: [Digioh Passport Recognize, Digioh Passport Recover, Digioh Passport Grow]
+  integrations: [Braze, Iterable, Klaviyo, Ometria]
+platform_installers:
+- {platform: Shopify, mechanism: Shopify app + theme app embed, url: 'https://apps.shopify.com/digioh'}
+- {platform: WordPress / WooCommerce, mechanism: Digioh plugin (Client GUID + Fast Activation or Low Impact mode), url: 'https://wordpress.org/plugins/digioh/'}
+- {platform: Google Tag Manager, mechanism: Custom HTML tag, url: 'https://help.digioh.com/docs/google-tag-manager-installation-guide'}
+- {platform: Tealium iQ, mechanism: tag template}
+- {platform: Adobe Launch, mechanism: JS tag installation guide}
+- {platform: 'BigCommerce, Magento, PrestaShop, Miva, Umbraco, Squarespace, Webflow, Instapage', mechanism: direct script snippet}
+- {platform: Shopify Headless, mechanism: 'snippet inserted into the frontend layout; the Shopify app cannot inject into a headless storefront', url: 'https://help.digioh.com/docs/digioh-shopify-headless'}
+mobile:
+- {platform: iOS, artifact: Digioh.xcframework, entry: 'DigiohWeb(userGId:).checkShowBoxes / showBox(boxId:viewController:)', renders: WebView, url: 'https://github.com/digioh/digioh-ios-sdk'}
+- {platform: Android, artifact: Digioh.aar, entry: 'Digioh(userGId).checkShowBoxes / showBox(boxId, context)', renders: WebView, url: 'https://github.com/digioh/digioh-android-sdk'}
+- note: Both mobile SDKs last shipped 2023-05-09 and are untagged binaries; see packages/digioh-packages.yml.
+reference_implementation:
+  repo: https://github.com/digioh/headless-shopify-example
+  finding: >-
+    Published 2025-09-30 as the headless reference, this repository is an unmodified create-next-app
+    scaffold whose only change is the page heading "Digioh React Next Test Page". It contains no
+    Digioh script, no loader, no SDK call and no Shopify integration, so it does not demonstrate the
+    integration it is named for.

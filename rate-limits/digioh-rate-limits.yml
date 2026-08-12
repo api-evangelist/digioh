@@ -1,0 +1,27 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.digioh.com/ (full knowledge-base index, 748 articles) and https://www.digioh.com/pricing
+limit_count: 0
+note: >-
+  Digioh publishes no rate limits, no quotas and no throttling documentation anywhere on its public
+  surface, and there is no response-header contract to record because there is no public inbound API
+  to call. This is an honest zero, not an unchecked field. The knowledge-base index was searched for
+  rate/limit/throttle/quota/429 articles and returned none; the pricing page argues the opposite
+  position explicitly - "no usage caps", "unlimited usage", "no consumption fees", "no bill that
+  spikes when a campaign takes off" - so the absence of published limits is a deliberate commercial
+  stance rather than an undocumented one.
+limits: []
+response_headers: []
+exhaustion_status: null
+related:
+- kind: infrastructure-control
+  description: >-
+    The only documented traffic-control surface is DDoS and bot protection at the edge
+    (https://help.digioh.com/docs/ddos-and-bot-protection) and a published IP allowlist for customers
+    who firewall outbound traffic - IPv4 104.30.161.100 and 104.30.176.91, IPv6 2a09:bac0:1000:63a::/64
+    and 2a09:bac0:1001:330::/64, plus outbound systems 20.66.60.83 (US) and 52.166.217.110 (EU).
+    Neither publishes a request budget.
+  source: https://help.digioh.com/docs/digioh-ip-addresses-for-allowlisting
+evidence:
+- {url: 'https://help.digioh.com/', status: 200, fetched: '2026-08-12'}
+- {url: 'https://www.digioh.com/pricing', status: 200, fetched: '2026-08-12'}

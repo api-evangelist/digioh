@@ -1,0 +1,126 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://help.digioh.com/docs/digioh-rest-api, https://help.digioh.com/docs/how-to-send-data-via-webhook-api,
+  https://help.digioh.com/docs/digioh-javascript-api, https://help.digioh.com/docs/how-to-manually-trigger-a-lightbox-via-api,
+  https://help.digioh.com/docs/understanding-digioh-pipelines
+scope: >-
+  IMPORTANT - Digioh's cross-cutting semantics run in the OUTBOUND direction. The article Digioh
+  titles "Digioh REST API" does not describe an API Digioh serves; it describes an "API Form POST"
+  integration in which Digioh calls a customer-controlled endpoint with form submission data. The
+  only API Digioh serves to a developer is the client-side browser JavaScript API. Everything below
+  is scoped accordingly.
+authentication:
+  inbound:
+    style: none-published
+    note: There is no public inbound API, therefore no inbound credential scheme.
+  outbound:
+    style: customer-defined
+    mechanisms:
+    - HTTP Basic - dedicated "Basic Auth Username" and "Basic Auth Password" fields on the integration's Advanced screen
+    - Arbitrary HTTP header key/value pairs, typically Authorization with an API key or bearer token
+    note: Digioh presents the customer's credentials to the customer's own endpoint; Digioh issues nothing.
+  client_side:
+    style: client-guid
+    note: >-
+      The widget runtime and both mobile SDKs are keyed on the account Client GUID (userGId in the
+      iOS/Android SDKs, "Client ID" in the WordPress plugin). It is embedded in public page source
+      and in the CDN URL path, so it is a tenant identifier, not a secret.
+  see: authentication/digioh-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    Digioh documents no idempotency key, no request-id echo and no replay contract on the outbound
+    form post. The Pipelines documentation describes retryable task execution with per-execution logs
+    under Pipeline > Activity, but no deduplication guarantee is published. NO Idempotency pointer is
+    emitted in apis.yml - the check is not satisfied and must not be credited.
+pagination:
+  supported: false
+  note: No paginated collection endpoint exists on any public Digioh surface.
+http_methods:
+  outbound_configurable: [POST, PUT, PATCH, DELETE, GET]
+  default: POST
+  source: https://help.digioh.com/docs/digioh-rest-api
+payload:
+  post_types: [JSON Raw, and other encodings selectable from the integration's Post Type dropdown]
+  default_recommendation: JSON Raw
+  construction:
+  - Map Fields - row-by-row mapping of form fields to destination field names
+  - JSON Raw - hand-authored payload template built under the integration's Advanced menu
+  templating:
+    style: merge-tags
+    syntax: uppercase tag wrapped in square brackets, e.g. '[EMAIL]'
+    type_rule: >-
+      Quoting determines the JSON type. "weeklyAdOptIn": "[FIELD5]" sends the string "true"/"false";
+      "weeklyAdOptIn": [FIELD5] sends the boolean true/false. This is the closest thing Digioh has to
+      a schema contract and it is positional/textual rather than declared.
+    named_tags: ['[EMAIL]', '[FIRST_NAME]', '[LAST_NAME]', '[NAME]']
+    named_tag_caveat: >-
+      A named tag only resolves if the form field's key name matches exactly; otherwise the field
+      number tag must be used.
+    positional_tags: '[FIELD1] through [FIELD20]'
+    positional_tag_caveat: >-
+      Field numbers are derived from field position in the form editor. Reordering or inserting a
+      field silently changes the number, and therefore silently changes the payload. Digioh
+      documents this hazard explicitly and tells customers to re-verify after any form edit.
+    geo_tags: ['[POSTAL_CODE]', '[CITY]', '[REGION]', '[COUNTRY]', '[COUNTRY_CODE]']
+    geo_tag_caveat: Geo tags are IP-derived and never carry user-entered values.
+  field_paths:
+    style: dot-notation within Pipelines Map Data tasks
+    examples: [form.email, analytics.country, prq.results_url]
+    output_example: [email, dataFields.phoneNumber]
+    default_value: each mapping row supports a fallback value used when the input field is empty
+versioning:
+  scheme: none-published
+  see: lifecycle/digioh-lifecycle.yml
+error_envelope:
+  published: false
+  note: >-
+    No error envelope, error code registry or problem-details contract is published. Pipeline
+    failures surface as per-execution log entries in the Digioh UI under Pipeline > Activity, not as
+    a documented response shape. The knowledge-base article "Consolidated Error Messages" is about
+    end-user form validation display, not API errors - no errors/ artifact is emitted, because there
+    is no error catalog to capture.
+rate_limit_signaling:
+  published: false
+  see: rate-limits/digioh-rate-limits.yml
+tracing:
+  request_id_header: null
+  note: No request-id or correlation header is documented in either direction.
+client_side_conventions:
+  namespace_from_own_site_js: DIGIOH_API.LIGHTBOX
+  namespace_from_digioh_custom_js: api.LIGHTBOX
+  readiness_guard: window.DIGIOH_API.LIGHTBOX.isDigiohReady()
+  iframe_rule: >-
+    Custom JS attached to a Campaign executes inside an iframe, so host-page globals must be reached
+    via window.parent (e.g. window.parent.dataLayer, window.parent.fbq).
+  data_handoff:
+    mechanism: localStorage
+    key: digioh_json
+    note: >-
+      The App Sync app writes submission data to localStorage as JSON. Property names are declared
+      with box-level metadata commands of the form 'prop:propName = [EMAIL]'; pipe-separating
+      multiple merge tags produces an array. Empty values are omitted rather than sent as null.
+  manual_trigger_rule: >-
+    api.LIGHTBOX.loadLightbox(guid) bypasses all display rules, but a campaign with zero rules is
+    never eligible and cannot be triggered at all - Digioh's documented workaround is to attach a
+    rule that can never be true purely to make the campaign eligible.
+infrastructure:
+  csp_requirements: https://help.digioh.com/docs/content-security-policy-csp-requirements-for-digioh
+  csp_defect: >-
+    Digioh's CSP article tells customers to allowlist api.digioh.com, cdn.digioh.com,
+    scripts.digioh.com, lightboxcdn.digioh.com and analytics.digioh.com. None of those five hosts
+    resolve in DNS (checked against 8.8.8.8, 2026-08-12). The hosts actually used by the live loader
+    are www.lightboxcdn.com and www.zeropartyforms.com, neither of which appears in the article.
+  ip_allowlist: https://help.digioh.com/docs/digioh-ip-addresses-for-allowlisting
+  subdomain_rule: >-
+    The Digioh tag must be installed separately on every subdomain a visitor can land on; campaigns
+    do not cross a subdomain boundary.
+cross_links:
+  authentication: authentication/digioh-authentication.yml
+  webhooks: asyncapi/digioh-webhooks.yml
+  lifecycle: lifecycle/digioh-lifecycle.yml
+  rate_limits: rate-limits/digioh-rate-limits.yml
+  components: components/digioh-components.yml
+  sandbox: sandbox/digioh-sandbox.yml

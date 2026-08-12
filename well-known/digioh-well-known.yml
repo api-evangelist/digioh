@@ -1,0 +1,66 @@
+generated: '2026-08-12'
+method: probed
+source: live GET of /.well-known/* on every Digioh host named in apis.yml
+result: none
+note: >-
+  Every /.well-known/ path probed on every Digioh host returned 404 (or, on account.digioh.com, a 302
+  into the logged-in application at /Box/List which then answers 403 to an anonymous client). No
+  security.txt, no OIDC/OAuth discovery document, no api-catalog, no ai-plugin.json and no A2A agent
+  card is served anywhere on the Digioh estate. NO WellKnown or SecurityTxt pointer is emitted in
+  apis.yml - this file records a verified absence, not a presence. A separate hit WAS found off the
+  well-known tree: https://www.digioh.com/llms.txt (HTTP 200, 4,620 bytes), captured verbatim at
+  llms/digioh-llms.txt and wired as type LLMsTxt.
+hosts:
+- host: https://www.digioh.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 404}
+  - {path: /swagger.json, status: 404}
+  - {path: /llms.txt, status: 200, file: ../llms/digioh-llms.txt}
+- host: https://help.digioh.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /openapi.json, status: 404}
+  - {path: /swagger.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://account.digioh.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 302, note: 'Location: https://account.digioh.com/Box/List (application login), 403 when followed'}
+  - {path: /.well-known/oauth-authorization-server, status: 302, note: 'same catch-all redirect into the application'}
+  - {path: /.well-known/api-catalog, status: 302, note: 'same catch-all redirect into the application'}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /api-docs, status: 302, note: 'same catch-all redirect into the application'}
+  - {path: /openapi.json, status: 404}
+  - {path: /swagger.json, status: 404}
+- host: https://www.zeropartyforms.com
+  note: widget runtime host discovered inside the Digioh loader script
+  documents:
+  - {path: /.well-known/security.txt, status: 400}
+  - {path: /.well-known/agent-card.json, status: 400}
+  - {path: /.well-known/agent.json, status: 400}
+  - {path: /.well-known/api-catalog, status: 400}
+  - {path: /openapi.json, status: 400}
+  - {path: /swagger.json, status: 400}
+  - {path: /llms.txt, status: 400}
+unresolvable_hosts:
+- note: >-
+    Digioh's own CSP requirements article (https://help.digioh.com/docs/content-security-policy-csp-requirements-for-digioh)
+    instructs customers to allowlist these hosts. None of them resolve in DNS as of 2026-08-12
+    (checked against 8.8.8.8) - no A or AAAA records - so none could be probed. This is a
+    documentation defect on Digioh's side worth reporting to the provider.
+  hosts: [api.digioh.com, cdn.digioh.com, scripts.digioh.com, lightboxcdn.digioh.com, analytics.digioh.com]

@@ -1,0 +1,94 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://help.digioh.com/docs/digioh-rest-api, https://help.digioh.com/knowledgebase/security-and-compliance/,
+  https://github.com/digioh/digioh-ios-sdk, https://github.com/digioh/digioh-android-sdk,
+  https://wordpress.org/plugins/digioh/
+docs: https://help.digioh.com/docs/digioh-rest-api
+derived_from_spec: false
+derivation_note: >-
+  0-working/derive-authentication.py was run and produced no profile - there is no OpenAPI or Swagger
+  document in this repo to derive securitySchemes from, because Digioh publishes none. This file is
+  authored from the provider's own documentation and from the shipped SDK signatures, and is marked
+  searched accordingly.
+summary:
+  types: [tenantIdentifier, http-basic, apiKey]
+  api_key_in: [path, header, body]
+  oauth2_flows: []
+  note: >-
+    Digioh issues no API credential to a developer. There is no public inbound API, so there is no
+    inbound auth scheme. What exists is (a) a non-secret account Client GUID that keys the widget
+    runtime and the mobile SDKs, and (b) pass-through credential fields where Digioh presents the
+    CUSTOMER's credentials to the CUSTOMER's own endpoint on an outbound form post.
+schemes:
+- name: ClientGUID
+  type: tenantIdentifier
+  direction: client-side
+  in: path
+  parameter: '{CLIENT_GUID}'
+  where: >-
+    Embedded in the loader URL https://www.lightboxcdn.com/vendor/{CLIENT_GUID}/lightbox_inline.js,
+    passed as userGId to DigiohWeb()/Digioh() in the iOS and Android SDKs, and entered as the
+    "Client GUID" / "Client ID" setting in the WordPress plugin.
+  secret: false
+  secret_note: >-
+    This value is visible in public page source and in the CDN request path, so it identifies a
+    tenant but authenticates nothing. It is retrievable in the Digioh UI under the profile menu and
+    is visible to Admin users only (not subusers), per the WordPress plugin installation notes.
+  sources: [https://wordpress.org/plugins/digioh/, https://github.com/digioh/digioh-ios-sdk]
+- name: OutboundBasicAuth
+  type: http
+  scheme: basic
+  direction: outbound
+  where: >-
+    "Basic Auth Username" and "Basic Auth Password" fields on the Advanced screen of an API Form POST
+    integration. Digioh sends these to the customer's endpoint; they may be left blank.
+  secret: true
+  sources: [https://help.digioh.com/docs/digioh-rest-api]
+- name: OutboundHeaderCredential
+  type: apiKey
+  in: header
+  parameter: Authorization (or any header name the customer configures)
+  direction: outbound
+  where: >-
+    Free-form HTTP header key/value pairs on the same Advanced screen, described by Digioh as the
+    usual place to put "an api key or auth token". Header fields may be left blank.
+  secret: true
+  sources: [https://help.digioh.com/docs/digioh-rest-api]
+- name: DestinationPlatformCredentials
+  type: apiKey
+  direction: outbound
+  where: >-
+    Digioh Pipelines and the legacy integrations store per-destination credentials for Klaviyo,
+    Iterable, Braze, Attentive, Ometria, HubSpot, Salesforce, Yotpo, Marketo and others, entered by
+    the customer when connecting the account. Each is the destination platform's own credential, not
+    a Digioh-issued one.
+  secret: true
+  sources: [https://help.digioh.com/docs/understanding-digioh-pipelines]
+account_authentication:
+  sso:
+    supported: true
+    providers_named: [Okta, Azure AD, Google Workspace]
+    protocol: not-published
+    self_serve: false
+    note: Enablement requires Digioh Support or a Customer Success Manager; no metadata or discovery endpoint is served.
+  mfa:
+    supported: true
+    note: Offered on enterprise and team accounts, enabled via Digioh support.
+  roles:
+    supported: true
+    source: https://help.digioh.com/docs/account-management-digioh-user-roles
+    note: Role-based access with an Admin/subuser distinction; activity logging documented separately.
+  login_url: https://account.digioh.com/
+  probe_note: >-
+    account.digioh.com answers 302 to /Box/List for every anonymous path and then 403, so no
+    unauthenticated auth metadata is observable.
+oauth2: []
+gaps:
+- No developer-issued API key exists, so there is no key rotation, scoping or revocation contract to document.
+- No OAuth 2.0 or OpenID Connect surface; /.well-known/openid-configuration returns 404 on every host.
+- SSO protocol is never named in public documentation.
+evidence:
+- {url: 'https://help.digioh.com/docs/digioh-rest-api', status: 200, fetched: '2026-08-12'}
+- {url: 'https://help.digioh.com/knowledgebase/security-and-compliance/', status: 200, fetched: '2026-08-12'}
+- {url: 'https://account.digioh.com/.well-known/openid-configuration', status: 302, fetched: '2026-08-12'}

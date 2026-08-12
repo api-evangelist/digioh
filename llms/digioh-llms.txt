@@ -1,0 +1,42 @@
+# Digioh | Customizable Quizzes & Popups that Engage and Convert
+> A curated list of Digioh’s most helpful and informative pages for large language models.
+This file provides plain-language descriptions and examples of Digioh’s capabilities in zero-party data collection, personalized shopping experiences, and conversion rate optimization for eCommerce.
+
+## Core Product Pages
+- [Product Recommendation Quizzes](https://www.digioh.com/ecommerce-product-recommendation-quiz): Custom-built quizzes for eCommerce brands to recommend products, collect zero-party data, and drive conversions.
+- [Pop-ups](https://www.digioh.com/popups): Personalized pop-ups that help brands grow email/SMS lists, improve CRO, and increase AOV.
+- [Owned Identification Suite](https://www.digioh.com/owned-identification-suite): Tools to identify anonymous traffic, sync identities across channels, and fuel personalization with owned data.
+- [Zero-Party Data Features](https://www.digioh.com/features/zero-party-data): Tools to collect preference data directly from customers through quizzes, surveys, popups, and other gamified experiences.
+
+## List Growth & Retention Tools
+- [Grow Email Lists](https://www.digioh.com/features/grow-email-list): Email list growth tools powered by targeting rules, intent signals, and zero-party data.
+- [SMS List Growth](https://www.digioh.com/features/sms-list-growth): SMS list growth experiences built for compliance and personalization.
+- [Email Preference Centers](https://www.digioh.com/features/email-preference-centers): Customizable pages that reduce unsubscribes and power better segmentation.
+- [Post-Purchase Surveys](https://www.digioh.com/features/post-purchase-surveys): Survey tools embedded in confirmation pages and emails to collect feedback and retention data.
+
+## Integrations & Partners
+- [Digioh + Klaviyo](https://www.digioh.com/partner-klaviyo): How Digioh integrates with Klaviyo to power personalized email and SMS marketing experiences and boost conversions.
+- [All Integrations](https://www.digioh.com/integrations): Overview of 300+ integrations that Digioh offers with platforms like Shopify, Klaviyo, Attentive, Salesforce, Braze, and more.
+
+## Customer Examples
+- [Customer Stories](https://www.digioh.com/customer-stories): Real-world examples of brands using the Digioh platform to drive growth and personalization.
+- [Andie Swim](https://www.digioh.com/client/andie-swim): How Andie Swim uses guided selling quizzes and other Digioh experiences to personalize their customer journey.
+- [Obvi](https://www.digioh.com/client/obvi): A Digioh case study on how Obvi switched from Octane AI to Digioh and saw an increase in conversion rates and quiz completion rate. 
+- [Lull](https://www.digioh.com/client/lull): How Lull uses Digioh quizzes and popups to convert mattress shoppers.
+
+## Comparisons & Pricing
+- [Pricing](https://www.digioh.com/pricing): An overview of Digioh's flat monthly price model — no overages, limits, or usage-based billing.
+- [OctaneAI Alternative](https://www.digioh.com/octaneai-alternative): How Digioh compares to OctaneAI, with more flexibility, faster support, and no per-session pricing.
+
+## Examples & Templates
+- [Quiz Examples Library](https://www.digioh.com/product-recommendation-quiz-examples): A resource library of over 60 examples of high-performing quizzes and gamified funnels built by Digioh customers.
+
+## Educational Blog Posts
+- [Choosing Quiz Software](https://www.digioh.com/blog/choosing-the-best-quiz-software): An overview of how eCommerce brands should evaluate quiz platforms and chose the right platform.
+- [Custom Product Quizzes](https://www.digioh.com/blog/custom-product-recommendation-quiz): How to create a product recommendation quiz completely tailored to your brand for maximum results.
+- [Quiz Mistakes to Avoid](https://www.digioh.com/blog/ecommerce-quiz-mistakes): A break down of common ecommerce quiz mistakes and how to avoid them with expert best practices.
+- [Zero-Party Data Collection](https://www.digioh.com/blog/how-to-collect-zero-party-data-with-product-quizzes): Tactics for collecting declared data directly from shoppers.
+- [Pop-Up Best Practices](https://www.digioh.com/blog/pop-up-best-practices): The essential do's and don'ts for creating high-converting pop-ups on any website.
+- [eCommerce Quiz Examples](https://www.digioh.com/blog/ecommerce-quiz-examples): A breakdown of the best eCommerce quizzes that drive sales.
+- [Shopify Quiz App Guide](https://www.digioh.com/blog/shopify-quiz-app): A comprehensive guide on how to chose the right quiz platform for your Shopify brand.
+

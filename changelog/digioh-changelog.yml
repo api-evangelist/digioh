@@ -1,0 +1,65 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.digioh.com/blog-categories/product-updates
+scheme: dated-monthly-blog
+format: narrative blog post per month, no version numbers, no breaking-change flags
+current_version: null
+cadence: monthly (with gaps - no post published for February, March or May 2026)
+note: >-
+  Digioh's changelog is a "Product Updates" blog category rather than a developer changelog. Entries
+  are product/marketing announcements: no version numbers, no dated deprecations, no breaking-change
+  section, no per-API scoping, and no machine-readable feed for this category was found. It is
+  captured here because it is genuinely dated and genuinely regular, which is what the operational
+  check reads - but it cannot be diffed by an integrator. Recent window only; the archive runs back
+  to November 2024.
+entries:
+- date: '2026-07-29'
+  version: null
+  url: https://www.digioh.com/blog/product-updates-july-2026
+  breaking: []
+  additions:
+  - Digioh Agent pre-built reports - structured analyses across Digioh, GA4, Klaviyo and Shopify data with revenue-impact calculations
+  - Passport Recover (beta) - re-engages unsubscribed or suppressed Klaviyo subscribers with onsite experiences
+  - Scratch to Win - gamified scratch-off pop-up format
+  - Quiz Abandonment extension - records the drop-off step and attaches it to the email submission
+  highlights: Agent reporting and Passport Recover beta
+- date: '2026-06-29'
+  version: null
+  url: https://www.digioh.com/blog/product-updates-june-2026
+  breaking: []
+  additions:
+  - Digioh Agent - read-only AI assistant built into the Digioh account (beta)
+  - Yotpo Reviews extension now pulls reviews from the Yotpo API so they render on any campaign page
+  - Relative Date Max/Min extension - relative date expressions (e.g. max_date = 9m) in form fields
+  - Scratch to Win announced as coming soon
+  highlights: Digioh Agent beta launch
+- date: '2026-04-27'
+  version: null
+  url: https://www.digioh.com/blog/product-release-updates-april-2026
+  breaking: []
+  additions: []
+  highlights: Building experience improvements, more powerful quizzes, and a senior hire
+- date: '2026-01-28'
+  version: null
+  url: https://www.digioh.com/blog/product-updates-january-2026
+  breaking: []
+  additions: []
+  highlights: January 2026 product release round-up
+archive:
+- '2025-11 https://www.digioh.com/blog/product-release-updates-november-2025'
+- '2025-10 https://www.digioh.com/blog/product-release-updates-october-2025'
+- '2025-09 https://www.digioh.com/blog/product-release-updates-september-2025'
+- '2025-08 https://www.digioh.com/blog/product-release-updates-august-2025'
+- '2025-07 https://www.digioh.com/blog/product-release-updates-july-2025'
+- '2025-06 https://www.digioh.com/blog/product-release-updates-june-2025'
+- '2025-05 https://www.digioh.com/blog/product-release-updates-may-2025'
+- '2025-04 https://www.digioh.com/blog/product-release-updates-april-2025'
+- '2025-03 https://www.digioh.com/blog/product-release-updates-march-2025'
+- '2025-02 https://www.digioh.com/blog/product-release-updates-february-2025'
+- '2025-01 https://www.digioh.com/blog/product-release-updates-january-2025'
+- '2024-12 https://www.digioh.com/blog/product-release-updates-december-2024'
+- '2024-11 https://www.digioh.com/blog/product-release-updates-november-2024'
+evidence:
+- {url: 'https://www.digioh.com/blog-categories/product-updates', status: 200, fetched: '2026-08-12'}
+- {url: 'https://www.digioh.com/blog/product-updates-july-2026', status: 200, fetched: '2026-08-12'}
+- {url: 'https://www.digioh.com/blog/product-updates-june-2026', status: 200, fetched: '2026-08-12'}

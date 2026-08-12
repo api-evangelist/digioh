@@ -1,0 +1,56 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://help.digioh.com/docs/how-to-install-digioh-on-your-site,
+  https://help.digioh.com/docs/install-digioh-lightbox-via-html,
+  probed https://www.zeropartyforms.com/w37htfhcq2/vendor/f5ca140a-36e6-4640-9031-2e0bd5673a58/lightbox.js
+kind: qa-mode
+summary: >-
+  Digioh has no API sandbox, because it has no public inbound API. What it does publish is a QA
+  publishing mode that separates a testable build of a campaign from the live build on the same
+  account - the same test-vs-live separation a sandbox provides, expressed at the campaign level.
+  There are no test credentials, no test keys, no test cards, no fixtures and no time simulation.
+  Every value below is published by Digioh or observed verbatim in the live loader; nothing is invented.
+test_vs_live:
+  separation: per-campaign publish channel, not per-key and not per-account
+  live_publish: Publish
+  test_publish: Save & Publish QA
+  test_access: >-
+    The campaign's QA Link, found under the preview menu in the Digioh account. Digioh states that a
+    QA publish is "testable without ever going live to visitors".
+  key_prefixes: none - Digioh issues no test or live API key
+  separate_test_account: not-published
+observed_mechanism:
+  note: >-
+    Read directly out of the live loader chain, not from documentation - Digioh does not document how
+    QA mode is switched on at the browser level. Recorded because it is the only machine-readable
+    trace of the test surface.
+  url_trigger: any URL containing the substring 'boxqamode'
+  session_flag: sessionStorage key 'xdibx_boxqamode' set to 1
+  effect: >-
+    The loader requests .../vendor/{CLIENT_GUID}/user_qa.js instead of .../vendor/{CLIENT_GUID}/user.js
+  source: https://www.zeropartyforms.com/w37htfhcq2/vendor/{CLIENT_GUID}/lightbox.js
+install_verification:
+  method: >-
+    Digioh's documented smoke test for a fresh install - create a campaign whose only condition is
+    "URL Contains DIGIOH_TEST" (a string that will never appear in a real URL), publish it, then load
+    https://www.yoursite.com/?DIGIOH_TEST and confirm the campaign appears immediately.
+  marker: DIGIOH_TEST
+  source: https://help.digioh.com/docs/install-digioh-lightbox-via-html
+  alternative: >-
+    Ask the Digioh Agent whether Digioh is running on the site - the Agent has read-only access to the
+    account and the website. Availability is limited during the Agent beta rollout.
+trial:
+  available: true
+  length_days: 30
+  self_serve: false
+  note: Every published plan includes a 30-day trial, but access is granted through a demo, not signup.
+absent:
+- Test API keys or test-mode credentials (no API keys exist at all)
+- Test card numbers, test bank accounts or hosted test tokens (Digioh is not a payments provider)
+- Test clocks or time simulation
+- Fixture or event-trigger tooling
+- A public sandbox host or mock server
+evidence:
+- {url: 'https://help.digioh.com/docs/how-to-install-digioh-on-your-site', status: 200, fetched: '2026-08-12'}
+- {url: 'https://www.lightboxcdn.com/vendor/f5ca140a-36e6-4640-9031-2e0bd5673a58/lightbox.js', status: 200, fetched: '2026-08-12'}

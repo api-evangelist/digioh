@@ -1,0 +1,71 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.digioh.com/pricing
+currency: USD
+billing_period: monthly
+pricing_model: flat-rate, banded by total monthly site visitors
+plan_count: 3
+note: >-
+  Digioh publishes entry prices for two named tiers and describes a third enterprise tier without a
+  price. The published numbers are floors ("starts at"); Digioh states the exact rate is set once from
+  the site's monthly traffic at quote time and then locked for the contract term. There is no
+  self-serve checkout - every tier routes through a demo/quote. No usage, per-seat, per-engagement or
+  per-submission metering is charged, and no overage exists, which is the explicit selling point.
+plans:
+- name: Quiz + Pop-ups Only
+  price: 700
+  price_qualifier: starting-at
+  currency: USD
+  period: month
+  quota: unlimited quiz and pop-up campaigns, unlimited submissions/engagements
+  overage: none
+  trial: 30 days
+  limits:
+    metered_dimension: total monthly site visitors (sets the rate band, not a usage cap)
+    campaigns: unlimited
+    submissions: unlimited
+    seats: unlimited (no per-seat charge)
+  includes:
+  - AI-powered quizzes and pop-ups
+  - Digioh AI (Acquisition Intelligence, Continuous Optimization)
+  - Digioh Passport Recognize
+  - Complex conditional logic, zero-party data capture, personalized result pages
+  - A/B testing and CRO
+  - 300+ integrations (Klaviyo, GA4, and others)
+  - GA4-based quiz reporting
+  - Dedicated onboarding specialist, 1 custom quiz built by Digioh, unlimited support
+- name: Full Platform
+  price: 1200
+  price_qualifier: starting-at
+  currency: USD
+  period: month
+  most_popular: true
+  quota: unlimited onsite campaigns and submissions
+  overage: none
+  trial: 30 days
+  limits:
+    metered_dimension: total monthly site visitors (sets the rate band, not a usage cap)
+    campaigns: unlimited
+    submissions: unlimited
+    seats: unlimited (no per-seat charge)
+  includes:
+  - Everything in Quiz + Pop-ups
+  - Pop-ups, exit intent, inline embeds, onsite personalization, 550+ templates
+  - Digioh Passport Recover + Grow (visitor identification and cross-session recognition)
+  - Website-wide personalization
+  - Digioh AI across quizzes, pop-ups and personalization, reading GA4/Klaviyo/Shopify data
+  - Dedicated account manager available, 2 additional campaigns built by Digioh
+- name: Enterprise
+  price: null
+  price_qualifier: contact-sales
+  currency: USD
+  period: month
+  quota: null
+  overage: none
+  limits: {}
+  includes:
+  - Referenced from the pricing page and https://www.digioh.com/enterprise
+  - SSO (Okta, Azure AD, Google Workspace) and MFA are enabled by Digioh support on request
+  note: No price is published for this tier; it is quote-only.
+evidence:
+- {url: 'https://www.digioh.com/pricing', status: 200, fetched: '2026-08-12'}
