@@ -11,6 +11,17 @@ description: Digioh is a US-based onsite personalization and zero-party data pla
   embed SDKs, and a WordPress plugin and Shopify app. Digioh publishes no public inbound REST API, no
   OpenAPI definition and no developer portal.
 url: https://raw.githubusercontent.com/api-evangelist/digioh/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/5ff6171603c269c582a4e0ff/670bc8241e4c1b1fd62820d7_Webclip.png
 x-type: company
 x-source: harvest:marketing-integration-graph
